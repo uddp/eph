@@ -1,0 +1,11 @@
+[package]
+name = "eph"
+version = "0.1.0"
+authors = ["K. Ouafi <mail@ouafi.net>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+structopt = "0.3.14"
+sha2 = "0.8.2"
