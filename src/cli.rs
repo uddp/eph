@@ -1,5 +1,7 @@
 use structopt::StructOpt;
 
+use crate::com::errors::EphError;
+
 #[derive(StructOpt)]
 pub(crate) struct Cli {
     #[structopt(subcommand)]
@@ -16,5 +18,14 @@ pub(crate) enum Command {
     },
     Cast {
         path: String,
+    },
+}
+
+/// Check if specified can was initiated on local machine
+pub(crate) fn is_init(can: &str) -> Result<(), EphError> {
+    if can == "ok" {
+        Ok(())
+    } else {
+        Err(EphError::new("Can is not initiated."))
     }
 }

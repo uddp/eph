@@ -1,12 +1,14 @@
 use std::fs::File;
-use std::io;
 
-use sha2::{Digest, Sha256};
+use sha2::digest::generic_array::GenericArray;
+use sha2::digest::generic_array::typenum::U32;
 use structopt::StructOpt;
 
 mod fs;
 mod config;
 mod cli;
+mod util;
+mod com;
 
 fn main() {
     let _opt = cli::Cli::from_args();
@@ -15,11 +17,9 @@ fn main() {
             fs::init(standalone)
         }
         cli::Command::Cast { path } => {
-            let mut file = File::open(path).expect("Unable to open");
-            let mut sha256 = Sha256::new();
-            io::copy(&mut file, &mut sha256).expect("Unable to open");
-            let hash = sha256.result();
-            println!("hash is: {:x}", hash);
+            let file = File::open(path).expect("Unable to open file.");
+            let output: GenericArray<u8, U32> = util::hash::fsha256(file);
+            println!("Hash: {:x}", output);
         }
     }
 }
